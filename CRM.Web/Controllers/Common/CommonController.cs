@@ -1,0 +1,31 @@
+﻿using Common.Modes.Menu.Dto;
+using Common.Services.Menus;
+using Core.Core;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+
+namespace Sales.Controllers.Common
+{
+    [Route("api/common")]
+    [ApiController]
+    public class CommonController : ControllerBase
+    {
+        private readonly IMenuService _menuService;
+        public CommonController(
+                IMenuService menuService
+            )
+        {
+            _menuService = menuService;
+        }
+
+        [Route("menus")]
+        [HttpGet]
+        public async Task<IActionResult> GetMenus()
+        {
+            var result = new ApiJsonResult();
+            result.Data = _menuService.GetMenuByParent();
+            return Ok(result);
+        }
+    }
+}
